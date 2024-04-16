@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     fetch('https://api.github.com/users/Biasiolo')
         .then(function(res) {
+            if (!res.ok) {
+                throw new Error('Erro ao carregar os dados do usuário');
+            }
             return res.json();
         })
         .then(function(json) {
@@ -20,4 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
             reposElement.innerText = json.public_repos;
             linkElement.href = json.html_url;
         })
-})
+        .catch(function(error) {
+            console.error('Ocorreu um erro:', error);
+        })
+        .finally(function() {
+            console.log('Requisição finalizada.'); 
+        });
+});
